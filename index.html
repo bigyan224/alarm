@@ -103,9 +103,10 @@
         setTimeout(show,1000);
 
         var hour=document.getElementById('hour').value;
+        var min=document.getElementById('min').value;
 
         var set=document.getElementById('btn');
-        if(hour===""){
+        if(hour==="" && min===""){
             set.disabled=true;
         }
         else{
@@ -144,13 +145,14 @@
                 clearTimeout(tm);
                 document.getElementById('snooze').style.display="block";
                 document.getElementById('stop').style.display="block";
-                var para = document.getElementById('para');
-            para.style.display = "block";
+                document.getElementById('para').style.display="block";
             audio.play();
             }
             else{
-                document.getElementById('para').innerText = "alarm will ring at " + hour + ":" + min;
-                document.getElementById('para').style.color="green";
+                var para=document.getElementById('para');
+                para.innerText="alarm will ring at " + hour + ":" + min;
+
+                para.style.display="block";
                 audio.pause();
             }
             
