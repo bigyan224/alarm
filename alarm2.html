@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body{
+        text-align: center;
+    }
+    .btn{
+        height: 50px;
+        width: 100px;
+        border-radius: 25px;
+        cursor: pointer;
+        font-family: monospace;
+        font-size: 20px;
+        color: white;
+        background-color: dodgerblue;
+        position: absolute;
+        top: 11%;
+        left: 60%;
+       }
+       .input{
+        height: 50px;
+        width: 100px;
+        border-radius: 25px;
+        font-size: 20px;
+       }
+       span{
+        font-size:40px;
+       }
+       #snooze{
+        height: 50px;
+        width: 100px;
+        border-radius: 25px;
+        cursor: pointer;
+        font-family: monospace;
+        font-size: 20px;
+        color: white;
+        background-color: darkgrey;
+        display: none;
+        position: absolute;
+        top: 28%;
+        left: 43%
+        
+       }
+       #stop{
+        height: 50px;
+        width: 100px;
+        border-radius: 25px;
+        cursor: pointer;
+        font-family: monospace;
+        font-size: 20px;
+        color: white;
+        background-color: red;
+        display: none;
+        position: absolute;
+        top: 28%;
+        left: 52%
+       }
+</style>
+<body onload="show()" id="body">
+    <h1 id="time">
+
+    </h1>
+    <input type="number" id="hour" placeholder="hour" class="input"><span>:</span>
+    <input type="number" id="min" placeholder="min" class="input">
+    <button id="btn" class="btn" onclick="alarm()">set alarm</button>
+     <button id="snooze" onclick="snooze()">snooze</button>
+    <button id="stop" onclick="stop()">stop</button>
+
+    <p id="para">
+
+    </p>
+    <script>
+       
+        var audio = new Audio('cupid.mp3');
+        function show(){
+            
+            var t=new Date();
+            var h=t.getHours();
+            var m=t.getMinutes();
+            var s=t.getSeconds();
+            var a="AM";
+
+            
+            if(h>=12){
+                a="PM";
+            }
+            
+            h=h>12?h-12:h;
+
+            m= m<10?"0"+m:m;
+            s= s<10?"0"+s:s;   
+            h= h<10?"0"+h:h;  
+           
+           
+            time=h+":"+m+":"+s+""+a;
+        document.getElementById('time').innerText=time;
+        setTimeout(show,1000);
+
+        var hour=document.getElementById('hour').value;
+
+        var set=document.getElementById('btn');
+        if(hour===""){
+            set.disabled=true;
+        }
+        else{
+            set.disabled=false;
+        }
+       
+        }
+
+        function alarm(){
+            
+
+        var t=new Date();
+        var h=t.getHours();
+        var m=t.getMinutes();
+        var s=t.getSeconds();
+        var a="AM";
+
+        h=h>12?h-12:h;
+            
+        m= m<10?"0"+m:m;
+        s= s<10?"0"+s:s;   
+        h= h<10?"0"+h:h;
+
+        var tm =setTimeout(alarm,1000);
+
+        
+            var hour=document.getElementById('hour').value;
+            var min=document.getElementById('min').value;
+         
+
+            min=min<10?"0"+min:min;
+            hour=hour<10?"0"+hour:hour;
+
+            if(hour==h && min==m){
+                document.getElementById('para').innerText="wake up";
+                clearTimeout(tm);
+                document.getElementById('snooze').style.display="block";
+                document.getElementById('stop').style.display="block";
+                var para = document.getElementById('para');
+            para.style.display = "block";
+            audio.play();
+            }
+            else{
+                document.getElementById('para').innerText = "alarm will ring at " + hour + ":" + min;
+                document.getElementById('para').style.color="green";
+                audio.pause();
+            }
+            
+        }
+
+        function snooze() {
+            
+            var para = document.getElementById('para');
+            para.style.display = "none";
+            audio.pause();
+          
+            tt=setTimeout(function() {
+              para.style.display = "block";
+              audio.play();
+            }, 5000);
+          }
+
+          function stop() {
+              audio.pause();
+              audio.currentTime=0;
+              var para = document.getElementById('para');
+              para.style.display = "none";
+              document.getElementById('snooze').style.display = "none";
+              document.getElementById('stop').style.display = "none";
+              clearTimeout(tt);
+            
+          }
+          
+          
+          
+    
+    </script>
+</body>
+</html>
